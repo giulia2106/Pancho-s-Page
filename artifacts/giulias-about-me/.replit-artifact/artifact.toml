@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Giulia's About Me"
+description = "A personal about-me website sharing Giulia's hobbies and favorite things, with a live random dog photo feature powered by Dog CEO."
+version = "1.0.0"
+id = "artifacts/giulias-about-me"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22303
+
+[services.development]
+run = "pnpm --filter @workspace/giulias-about-me run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/giulias-about-me", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/giulias-about-me/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22303"
+BASE_PATH = "/"
